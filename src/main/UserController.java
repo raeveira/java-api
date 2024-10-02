@@ -8,7 +8,7 @@ import spark.Response;
 
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    private UserService userService = new UserService();
+    private final UserService userService = new UserService();
 
     public ObjectNode getUser(Request request, Response response) {
         String username = request.params(":username");
@@ -48,7 +48,7 @@ public class UserController {
         logger.info("Fetching all users");
 
         ObjectNode result = userService.getAllUsers();
-        if (result.size() > 0) {
+        if (!result.isEmpty()) {
             response.status(200); // OK
         } else {
             response.status(500); // Internal Server Error
