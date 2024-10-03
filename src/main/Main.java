@@ -17,6 +17,13 @@ public class Main {
         Spark.post("/users", userController::createUser);
 
         // Exception handling
+
+        Spark.exception(IllegalArgumentException.class, (exception, request, response) -> {
+            System.err.println("Bad request: " + exception.getMessage());
+            response.status(400);
+            response.body("Bad request");
+        });
+
         Spark.exception(Exception.class, (exception, request, response) -> {
             System.err.println("Internal server error occurred: " + exception.getMessage());
             response.status(500);
